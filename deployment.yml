@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: e-commerce-product
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: e-commerce-product
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  minReadySeconds: 5
+  template:
+    metadata:
+      labels:
+        app: e-commerce-product
+    spec:
+      containers:
+        - image: avishkashyaman/e-commerce-product:v1
+          name: e-commerce-product-container
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8081
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8081
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8081
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "500m"
+            limits:
+              memory: "1Gi"
+              cpu: "1000m"
