@@ -14,7 +14,7 @@ function App() {
 
   return (
       <div className="App">
-        <h1 className="p-5 text-center">{product.title}</h1>
+        {/* <h1 className="p-5 text-center">{product.title}</h1> */}
         <div className="d-flex">
           {
 
